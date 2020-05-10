@@ -4,6 +4,7 @@ import "../coffeeaccesscontrol/ConsumerRole.sol";
 import "../coffeeaccesscontrol/DistributorRole.sol";
 import "../coffeeaccesscontrol/FarmerRole.sol";
 import "../coffeeaccesscontrol/RetailerRole.sol";
+import "../coffeecore/Ownable.sol";
 
 
 // Define a contract 'Supplychain'
@@ -11,7 +12,8 @@ contract SupplyChain is
     ConsumerRole,
     DistributorRole,
     FarmerRole,
-    RetailerRole
+    RetailerRole,
+    Ownable
 {
     // Define 'owner'
     address owner;
@@ -73,10 +75,10 @@ contract SupplyChain is
     /*#############################################################*/
 
     // Define a modifer that checks to see if msg.sender == owner of the contract
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only Owner can do this");
-        _;
-    }
+    // modifier onlyOwner() {
+    //     require(msg.sender == owner, "Only Owner can do this");
+    //     _;
+    // }
     // Define a modifer that verifies the Caller
     modifier verifyCaller(address _address) {
         require(msg.sender == _address, "Caller not Varified");
@@ -159,7 +161,7 @@ contract SupplyChain is
     }
 
     // Define a function 'kill' if required
-    function kill() public {
+    function kill() public onlyOwner {
         if (msg.sender == owner) {
             address payable ownerAddress = _make_payable(owner);
             selfdestruct(ownerAddress);

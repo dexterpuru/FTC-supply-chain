@@ -1,10 +1,8 @@
 pragma solidity >=0.4.24;
 
-import "../coffeebase/SupplyChain.sol";
-
 
 /// Provides basic authorization control
-contract Ownable is SupplyChain {
+contract Ownable {
     address private origOwner;
 
     // Define an Event
@@ -22,7 +20,7 @@ contract Ownable is SupplyChain {
     }
 
     /// Define a function modifier 'onlyOwner'
-    modifier only_Owner() {
+    modifier onlyOwner() {
         require(isOwner(), "Only owner can do this");
         _;
     }
@@ -39,7 +37,7 @@ contract Ownable is SupplyChain {
     }
 
     /// Define a public function to transfer ownership
-    function transferOwnership(address newOwner) public only_Owner {
+    function transferOwnership(address newOwner) public onlyOwner {
         _transferOwnership(newOwner);
     }
 
